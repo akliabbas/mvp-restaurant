@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>MVP - Commande de repas</title>
+
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -52,39 +53,7 @@
     }
   </style>
 </head>
-  <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-  import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-  const firebaseConfig = {
-    apiKey: "TON_API_KEY",
-    authDomain: "TON_PROJECT",
-    projectId: "TON_PROJECT",
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
-
-  window.commander = async function () {
-    const plat = document.getElementById("plat").value;
-    const nom = document.getElementById("nom").value;
-    const telephone = document.getElementById("telephone").value;
-
-    if (!nom || !telephone) {
-      alert("Remplir tous les champs !");
-      return;
-    }
-
-    await addDoc(collection(db, "commandes"), {
-      plat,
-      nom,
-      telephone,
-      date: new Date()
-    });
-
-    alert("Commande enregistrée !");
-  };
-</script>
 <body>
 
   <h1>🍔 Commande de repas</h1>
@@ -106,8 +75,21 @@
     <div id="message" class="success"></div>
   </div>
 
-  <script>
-    function commander() {
+  <!-- ✅ SCRIPT FIREBASE (PLACÉ EN BAS = IMPORTANT) -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAxuLk1rBMs4_lipD8s6pIsV9U41tuyPYo",
+      authDomain: "mvp-restaurant.firebaseapp.com",
+      projectId: "mvp-restaurant",
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    window.commander = async function () {
       const plat = document.getElementById("plat").value;
       const nom = document.getElementById("nom").value;
       const telephone = document.getElementById("telephone").value;
@@ -118,22 +100,28 @@
         return;
       }
 
-      // Simulation (MVP simple)
-      console.log("Commande :", {
-        plat,
-        nom,
-        telephone,
-        adresse
-      });
+      try {
+        await addDoc(collection(db, "commandes"), {
+          plat,
+          nom,
+          telephone,
+          adresse,
+          date: new Date()
+        });
 
-      document.getElementById("message").innerText =
-        "✅ Commande envoyée ! Nous vous contacterons bientôt.";
+        document.getElementById("message").innerText =
+          "✅ Commande enregistrée avec succès !";
 
-      // reset
-      document.getElementById("nom").value = "";
-      document.getElementById("telephone").value = "";
-      document.getElementById("adresse").value = "";
-    }
+        // reset
+        document.getElementById("nom").value = "";
+        document.getElementById("telephone").value = "";
+        document.getElementById("adresse").value = "";
+
+      } catch (error) {
+        alert("Erreur : " + error.message);
+        console.error(error);
+      }
+    };
   </script>
 
 </body>
