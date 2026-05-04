@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>MVP - Commande de repas</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+
+    .container {
+      max-width: 500px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    select, input, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      background: #28a745;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #218838;
+    }
+
+    .success {
+      margin-top: 15px;
+      color: green;
+      text-align: center;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🍔 Commande de repas</h1>
+
+  <div class="container">
+    <label>Choisir un plat :</label>
+    <select id="plat">
+      <option>Pizza</option>
+      <option>Burger</option>
+      <option>Tacos</option>
+    </select>
+
+    <input type="text" id="nom" placeholder="Votre nom">
+    <input type="text" id="telephone" placeholder="Téléphone">
+    <input type="text" id="adresse" placeholder="Adresse">
+
+    <button onclick="commander()">Commander</button>
+
+    <div id="message" class="success"></div>
+  </div>
+
+  <script>
+    function commander() {
+      const plat = document.getElementById("plat").value;
+      const nom = document.getElementById("nom").value;
+      const telephone = document.getElementById("telephone").value;
+      const adresse = document.getElementById("adresse").value;
+
+      if (!nom || !telephone || !adresse) {
+        alert("Veuillez remplir tous les champs !");
+        return;
+      }
+
+      // Simulation (MVP simple)
+      console.log("Commande :", {
+        plat,
+        nom,
+        telephone,
+        adresse
+      });
+
+      document.getElementById("message").innerText =
+        "✅ Commande envoyée ! Nous vous contacterons bientôt.";
+
+      // reset
+      document.getElementById("nom").value = "";
+      document.getElementById("telephone").value = "";
+      document.getElementById("adresse").value = "";
+    }
+  </script>
+
+</body>
+</html>
