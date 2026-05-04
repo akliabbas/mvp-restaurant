@@ -45,8 +45,29 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 // 👉 bouton
-document.getElementById("btn").addEventListener("click", () => {
-  alert("CLICK OK");
+document.getElementById("btn").addEventListener("click", async () => {
+
+  const nom = document.getElementById("nom").value;
+  const tel = document.getElementById("telephone").value;
+
+  if (!nom || !tel) {
+    alert("Remplir les champs");
+    return;
+  }
+
+  try {
+    await addDoc(collection(db, "commandes"), {
+      nom: nom,
+      telephone: tel,
+      date: new Date()
+    });
+
+    alert("OK enregistré !");
+  } catch (e) {
+    alert("Erreur Firebase");
+    console.log(e);
+  }
+
 });
 
 </script>
